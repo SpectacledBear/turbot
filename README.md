@@ -31,7 +31,7 @@ When you have created your application, copy the "Client ID" value into your `.e
 
 Paste this URL into a browser, where `<your client id>` is the Client ID you retrieved in the above section.
 
-    https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=<your client id>&redirect_uri=http://localhost:3000&scope=chat%3Aread+chat%3Aedit
+    https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=<your client id>&redirect_uri=http://localhost&scope=chat%3Aread+chat%3Aedit
 
 You will be redirected to a page where you can authorize the application.
 When you authorize the application, it will attempt to redirect you back to your callback address.
