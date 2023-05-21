@@ -19,7 +19,8 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         logger.debug("Disconnecting.")
         self.disconnect()
 
-    def is_new_chatter(self, e):
+    def welcome_chatter_if_new(self, e):
+        # Collapse array of single-key dictionaries into one dictionary
         tags_dict = {}
         for tag in e.tags:
             tags_dict[tag["key"]] = tag["value"]
@@ -30,9 +31,11 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
             if chatter not in self.chatters:
                 logger.debug("Adding chatter to list of chatters.")
                 self.chatters.append(chatter)
-                return chatter
 
-        return None
+                logger.info(f'Welcoming new chatter "{chatter}".')
+                logger.debug("Sending hello message in IRC channel.")
+                c = self.connection
+                c.privmsg(self.channel, f"Hello {chatter}!")
 
     def on_nicknameinuse(self, c, e):
         logger.debug("Selecting alternate nickname.")
@@ -54,24 +57,32 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         c.privmsg(self.channel, "I have arrived.")
 
     def on_privmsg(self, c, e):
-        logger.debug(f"private message: {str(e)}")
-        self.do_command(e, e.arguments[0])
+        logger.debug(f"e: {str(e)}")
+
+        message = e.arguments[0]
+        logger.info(f"private message: {message}")
+        self.do_command(e, message)
 
     def on_pubmsg(self, c, e):
-        logger.debug(f"public message: {str(e)}")
-        chatter = self.is_new_chatter(e)
-        if chatter is not None:
-            logger.info(f'Welcoming new chatter "{chatter}".')
-            logger.debug("Sending hello message in IRC channel.")
-            c.privmsg(self.channel, f"Hello {chatter}!")
+        logger.debug(f"e: {str(e)}")
 
-        self.do_command(e, e.arguments[0])
+        message = e.arguments[0]
+        logger.info(f"public message: {message}")
+
+        self.welcome_chatter_if_new(e)
+
+        self.do_command(e, message)
 
     # def on_dccmsg(self, c, e):
     #     print(f"dcc message: {str(e)}")
 
     def do_command(self, e, cmd):
+        if cmd is None:
+            return None
+
         c = self.connection
-        print(f"cmd: {cmd}")
+
+        logger.debug(f"cmd: {cmd}")
         if cmd.startswith("!"):
-            c.privmsg(self.channel, f"{cmd} command received.")
+            command_word = cmd.split()[0]
+            c.privmsg(self.channel, f"I do not know what to do with the command {command_word}.")
