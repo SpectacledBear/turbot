@@ -28,7 +28,7 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         chatter = tags_dict["display-name"]
 
         if chatter is not None:
-            if chatter not in self.chatters:
+            if chatter not in self.chatters and chatter is not self.channel:
                 logger.debug("Adding chatter to list of chatters.")
                 self.chatters.append(chatter)
 
