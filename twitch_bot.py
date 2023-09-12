@@ -85,4 +85,7 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         logger.debug(f"cmd: {cmd}")
         if cmd.startswith("!"):
             command_word = cmd.split()[0]
-            c.privmsg(self.channel, f"I do not know what to do with the command {command_word}.")
+            c.privmsg(
+                self.channel,
+                f"I do not know what to do with the command {command_word}.",
+            )

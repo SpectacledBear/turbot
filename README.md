@@ -61,8 +61,11 @@ Python `python-dotenv` module
 
 https://dev.twitch.tv/docs/irc/
 
+https://dev.twitch.tv/docs/irc/authenticate-bot/
+
 https://python-irc.readthedocs.io/en/latest/
 
 https://github.com/jaraco/irc/blob/main/scripts/testbot.py#L38
 
 https://github.com/twitchdev/chatbot-python-sample/tree/main
+
