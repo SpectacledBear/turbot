@@ -19,6 +19,8 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         logger.debug("Disconnecting.")
         self.disconnect()
 
+    # Courtesy methods
+
     def welcome_chatter_if_new(self, e):
         # Collapse array of single-key dictionaries into one dictionary
         tags_dict = {}
@@ -36,6 +38,8 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
                 logger.debug("Sending hello message in IRC channel.")
                 c = self.connection
                 c.privmsg(self.channel, f"Hello {chatter}!")
+
+    # Event-based methods
 
     def on_nicknameinuse(self, c, e):
         logger.debug("Selecting alternate nickname.")
