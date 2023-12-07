@@ -6,6 +6,7 @@ import time
 from irc.client import ServerNotConnectedError
 
 from config import load_config
+from timed_messages.timed_messages import TimedMessages
 from twitch.twitch_bot import TwitchBot
 
 logging.basicConfig(level=logging.INFO)
@@ -28,10 +29,13 @@ if __name__ == "__main__":
     bot_thread.daemon = True  # Setting as daemon so it terminates on exit
     # Register commands
     # Scheduled messages thread
+    timed_messages = TimedMessages(bot)
+    timed_messages_thread = threading.Thread(target=timed_messages.message_loop)
     # CLI thread
     # switch to CLI thread
     bot_thread.start()
     # Do I want a connection retry mechanism here with timeout?
+    timed_messages_thread.start()
 
     try:
         while bot.connection.is_connected() is True:
