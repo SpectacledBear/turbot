@@ -5,8 +5,8 @@ import time
 
 from irc.client import ServerNotConnectedError
 
-import load_config
-from twitch_bot import TwitchBot
+from config import load_config
+from twitch.twitch_bot import TwitchBot
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("turbot")
