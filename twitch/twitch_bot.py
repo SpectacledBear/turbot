@@ -22,8 +22,6 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         self.chatters = []
 
     def stop(self):
-        logger.debug("Sending departing message.")
-        self.send_private_message("I'm out!")
         logger.debug("Disconnecting.")
         self.disconnect()
 
@@ -67,8 +65,7 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
 
         logger.debug("Joining IRC channel.")
         c.join(self.channel)
-        logger.debug("Sending starting message in IRC channel.")
-        self.send_private_message("I have arrived.")
+        logger.debug("Joined IRC channel.")
 
     def on_privmsg(self, c, e):
         logger.debug(f"e: {str(e)}")

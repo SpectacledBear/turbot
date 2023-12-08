@@ -60,8 +60,8 @@ class TimedMessages:
 
     def message_loop(self):
         while True:
+            time.sleep(self.interval_seconds)
+
             message = self.next_message()
 
             self.bot.send_private_message(message)
-
-            time.sleep(self.interval_seconds)

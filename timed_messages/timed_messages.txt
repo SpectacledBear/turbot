@@ -1,1 +1,0 @@
-Hi, I'm Turbot, a bot created by ASolitaryBear. You can find out more about me at https://github.com/SpectacledBear/turbot.

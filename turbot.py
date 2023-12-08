@@ -43,6 +43,10 @@ if __name__ == "__main__":
 
             time.sleep(5)
 
+        logger.debug("Sending starting message in IRC channel.")
+        bot.send_private_message("Hi, I'm Turbot, a bot created by ASolitaryBear. "
+                                 "You can find out more about me at https://github.com/SpectacledBear/turbot.")
+
         # Scheduled messages thread
         timed_messages_thread.start()
         # CLI thread
@@ -58,6 +62,9 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         logger.info("Exiting.")
 
+    logger.debug("Sending departing message.")
+    bot.send_private_message("I'm out!")
     bot.stop()
     bot_thread.join(5)
+
     sys.exit()
