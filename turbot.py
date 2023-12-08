@@ -33,15 +33,32 @@ if __name__ == "__main__":
     timed_messages_thread = threading.Thread(target=timed_messages.message_loop)
     # CLI thread
     # switch to CLI thread
-    bot_thread.start()
     # Do I want a connection retry mechanism here with timeout?
-    timed_messages_thread.start()
+    # timed_messages_thread.start()
 
     try:
+        bot_thread.start()
+        time.sleep(5)
+
+        connection_attempt = 0
+        while bot.connection.is_connected() is False:
+            connection_attempt += 1
+
+            if connection_attempt > 5:
+                raise ServerNotConnectedError()
+
+            logger.debug(f"Connection attempt {connection_attempt}")
+
+            bot.connection.disconnect()
+            bot.connection.connect()
+
+            time.sleep(5)
         while bot.connection.is_connected() is True:
             time.sleep(5)
+
+        raise ServerNotConnectedError()
     except ServerNotConnectedError:
-        logger.debug("Not connected to IRC server. Exiting.")
+        logger.info("Not connected to IRC server. Exiting.")
     except KeyboardInterrupt:
         logger.info("Exiting.")
 
