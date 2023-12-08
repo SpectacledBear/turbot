@@ -13,9 +13,8 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         self.chatters = []
 
     def stop(self):
-        c = self.connection
         logger.debug("Sending departing message.")
-        c.privmsg(self.channel, "I'm out!")
+        self.send_private_message("I'm out!")
         logger.debug("Disconnecting.")
         self.disconnect()
 
@@ -58,7 +57,7 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         logger.debug("Joining IRC channel.")
         c.join(self.channel)
         logger.debug("Sending starting message in IRC channel.")
-        c.privmsg(self.channel, "I have arrived.")
+        self.send_private_message("I have arrived.")
 
     def on_privmsg(self, c, e):
         logger.debug(f"e: {str(e)}")
@@ -84,12 +83,14 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         if cmd is None:
             return None
 
-        c = self.connection
-
         logger.debug(f"cmd: {cmd}")
         if cmd.startswith("!"):
             command_word = cmd.split()[0]
-            c.privmsg(
-                self.channel,
-                f"I do not know what to do with the command {command_word}.",
-            )
+            self.send_private_message(f"I do not know what to do with the command {command_word}.")
+
+    def send_private_message(self, message):
+        c = self.connection
+        c.privmsg(
+            self.channel,
+            message
+        )
