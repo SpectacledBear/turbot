@@ -36,7 +36,10 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         chatter = tags_dict["display-name"]
 
         if chatter is not None:
-            if chatter not in self.chatters and f"#{chatter.lower()}" != self.channel.lower():
+            if (
+                chatter not in self.chatters
+                and f"#{chatter.lower()}" != self.channel.lower()
+            ):
                 logger.info(f"user: #{chatter.lower()}")
                 logger.info(f"channel: {self.channel.lower()}")
                 logger.debug("Adding chatter to list of chatters.")
@@ -98,13 +101,12 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         logger.debug(f"cmd: {cmd}")
         if cmd.startswith("!"):
             command_word = cmd.split()[0]
-            self.send_private_message(f"I do not know what to do with the command {command_word}.")
+            self.send_private_message(
+                f"I do not know what to do with the command {command_word}."
+            )
 
     # Helper methods
 
     def send_private_message(self, message):
         c = self.connection
-        c.privmsg(
-            self.channel,
-            message
-        )
+        c.privmsg(self.channel, message)
