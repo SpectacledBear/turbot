@@ -21,7 +21,7 @@ if __name__ == "__main__":
     bot = TwitchBot(channel, username, token, server)
     bot_thread = threading.Thread(target=bot.start)
     bot_thread.daemon = True  # Setting as daemon so it terminates on exit
-    # Register commands
+    # TODO: Register commands
     timed_messages = TimedMessages(bot)
     timed_messages_thread = threading.Thread(target=timed_messages.message_loop)
 
@@ -44,14 +44,15 @@ if __name__ == "__main__":
             time.sleep(5)
 
         logger.debug("Sending starting message in IRC channel.")
-        bot.send_private_message("Hi, I'm Turbot, a bot created by ASolitaryBear. "
-                                 "You can find out more about me at https://github.com/SpectacledBear/turbot.")
+        bot.send_private_message(
+            "Hi, I'm Turbot, a bot created by ASolitaryBear. "
+            "You can find out more about me at https://github.com/SpectacledBear/turbot."
+        )
 
         # Scheduled messages thread
         timed_messages_thread.start()
         # CLI thread
         # switch to CLI thread
-        # Do I want a connection retry mechanism here with timeout?
 
         while bot.connection.is_connected() is True:
             time.sleep(5)

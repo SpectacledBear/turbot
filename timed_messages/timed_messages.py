@@ -33,7 +33,10 @@ def read_messages():
         lines = messages_file.readlines()
 
         for line in lines:
-            messages.append(line.strip())
+            trimmed_line = line.strip()
+
+            if trimmed_line:
+                messages.append(trimmed_line)
 
         return messages
 
